@@ -5,8 +5,9 @@
       <map>
         <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/drawable/home.xml" value="0.1705" />
         <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/drawable/settings.xml" value="0.1315" />
-        <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/layout/activity_main2.xml" value="0.259375" />
+        <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/layout/fragment_setting.xml" value="0.259375" />
         <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2" />
       </map>
     </option>
