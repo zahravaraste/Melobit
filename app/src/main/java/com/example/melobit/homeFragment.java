@@ -1,12 +1,27 @@
 package com.example.melobit;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.example.melobit.adapter.MusicAdapter;
+import com.example.melobit.manager.RequestManager;
+import com.example.melobit.models.MusicData;
+import com.example.melobit.models.MusicResponse;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,11 +69,45 @@ public class homeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    RecyclerView recyclerview;
+    ProgressDialog dialog;
+    RequestManager manager;
+    MusicAdapter adapter;
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        dialog = new ProgressDialog(getActivity());
+        dialog.setTitle("Loading...⌛");
+        dialog.show();
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+         View view=inflater.inflate(R.layout.fragment_home, container, false);
+        recyclerview=view.findViewById((R.id.recycler_music1));
+        manager = new RequestManager(getActivity());
+        manager.getMusic(listener);
+        return view;
+    }
+
+    private final ResponseListener<MusicResponse> listener = new ResponseListener<MusicResponse>() {
+        @Override
+        public void didFetch(List<MusicData> list, String status) {
+            showMusic(list);
+            dialog.dismiss();
+        }
+        @Override
+        public void didError(String status) {
+            Toast.makeText(getActivity(), status, Toast.LENGTH_SHORT).show();
+        }
+    };
+    private void showMusic(List<MusicData> list) {
+        recyclerview.setHasFixedSize(true);
+        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        adapter = new MusicAdapter(getActivity(), list);
+        recyclerview.setAdapter(adapter);
     }
 }
