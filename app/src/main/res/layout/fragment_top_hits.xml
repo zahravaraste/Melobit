@@ -45,10 +45,12 @@
             android:text="This week" />
 
     </com.google.android.material.tabs.TabLayout>
+
     <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tabLayout"
-        android:id="@+id/viewPager" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
