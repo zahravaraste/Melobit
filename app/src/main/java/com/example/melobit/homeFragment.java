@@ -90,6 +90,13 @@ public class homeFragment extends Fragment {
         recyclerview=view.findViewById((R.id.recycler_music1));
         manager = new RequestManager(getActivity());
         manager.getMusic(listener);
+        Button btn_topHits=(Button) view.findViewById(R.id.btn_topHits);
+        btn_topHits.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.topHitsFragment);
+            }
+        }
+        );
         return view;
     }
 
