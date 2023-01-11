@@ -3,10 +3,15 @@ package com.example.melobit;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.melobit.adapter.ViewpagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,11 +59,20 @@ public class topHitsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_top_hits, container, false);
+        View view=inflater.inflate(R.layout.fragment_top_hits, container, false);
+        tabLayout=view.findViewById(R.id.tabLayout);
+        viewPager=view.findViewById(R.id.viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+        ViewpagerAdapter vpAdapter=new ViewpagerAdapter(getActivity().getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        vpAdapter.addFragment(new todayFragment(),"Today");
+        vpAdapter.addFragment(new thisWeekFragment(),"This week");
+        viewPager.setAdapter(vpAdapter);
+        return view;
     }
 }
