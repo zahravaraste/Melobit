@@ -76,6 +76,31 @@ public class RequestManager {
     }
 
 
+    CallTopWeekSongs callWeekMusic = retrofit.create(CallTopWeekSongs.class);
+    public void getTopWeekMusic(ResponseListener listener) {
+
+        Call<MusicResponse> call2 = callWeekMusic.callTopWeekMusic();
+        try {
+            call2.enqueue(new Callback<MusicResponse>() {
+                @Override
+                public void onResponse(Call<MusicResponse> call, Response<MusicResponse> response) {
+                    if (!response.isSuccessful()){
+                        listener.didError(response.message());
+                        return;
+                    }
+                    listener.didFetch(response.body().getResults(),response.message());
+                }
+
+                @Override
+                public void onFailure(Call<MusicResponse> call, Throwable t) {
+                    listener.didError(t.getMessage());
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
 
@@ -87,5 +112,10 @@ public class RequestManager {
     private interface CallTopDaySongs {
         @GET("song/top/day/0/100")
         Call<MusicResponse> callTopDayMusic();
+    }
+
+    private interface CallTopWeekSongs {
+        @GET("song/top/week/0/100")
+        Call<MusicResponse> callTopWeekMusic();
     }
 }
