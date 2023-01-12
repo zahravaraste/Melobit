@@ -3,10 +3,21 @@ package com.example.melobit;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.example.melobit.adapter.TodayAdapter;
+import com.example.melobit.adapter.WeekAdapter;
+import com.example.melobit.manager.RequestManager;
+import com.example.melobit.models.MusicData;
+import com.example.melobit.models.MusicResponse;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,11 +65,33 @@ public class thisWeekFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    RecyclerView recyclerview;
+    RequestManager manager;
+    WeekAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_this_week, container, false);
+        View view=inflater.inflate(R.layout.fragment_this_week, container, false);
+        recyclerview=view.findViewById((R.id.recycler_week));
+        manager = new RequestManager(getActivity());
+        manager.getTopWeekMusic(listener);
+        return view;
+    }
+    private final ResponseListener<MusicResponse> listener = new ResponseListener<MusicResponse>() {
+        @Override
+        public void didFetch(List<MusicData> list, String status) {
+            showMusic(list);
+        }
+        @Override
+        public void didError(String status) {
+            Toast.makeText(getActivity(), status, Toast.LENGTH_SHORT).show();
+        }
+    };
+    private void showMusic(List<MusicData> list) {
+        recyclerview.setHasFixedSize(true);
+        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        adapter = new WeekAdapter(getActivity(), list);
+        recyclerview.setAdapter(adapter);
     }
 }
