@@ -1,15 +1,18 @@
 package com.example.melobit;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
-
 import android.os.Bundle;
+import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
+    homeFragment HomeFragment=new homeFragment();
+    searchFragment SearchFragment=new searchFragment();
+    settingFragment SettingFragment=new settingFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +20,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
-        NavController navController = Navigation.findNavController(this,  R.id.fragment);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, HomeFragment).commit();
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.homeFragment:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, HomeFragment).commit();
+                        return true;
+                    case R.id.searchFragment:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, SearchFragment).commit();
+                        return true;
+                    case R.id.settingFragment:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, SettingFragment).commit();
+                        return true;
+                }
+
+                return false;
+            }
+        });
+
+
     }
 }

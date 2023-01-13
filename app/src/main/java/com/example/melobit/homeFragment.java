@@ -3,18 +3,16 @@ package com.example.melobit;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.melobit.adapter.MusicAdapter;
 import com.example.melobit.manager.RequestManager;
@@ -73,6 +71,7 @@ public class homeFragment extends Fragment {
     ProgressDialog dialog;
     RequestManager manager;
     MusicAdapter adapter;
+    topHitsFragment TopHitsFragment = new topHitsFragment();
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -86,14 +85,15 @@ public class homeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         View view=inflater.inflate(R.layout.fragment_home, container, false);
-        recyclerview=view.findViewById((R.id.recycler_music1));
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        recyclerview = view.findViewById((R.id.recycler_music1));
         manager = new RequestManager(getActivity());
         manager.getMusic(listener);
-        Button btn_topHits=(Button) view.findViewById(R.id.btn_topHits);
+        Button btn_topHits = (Button) view.findViewById(R.id.btn_topHits);
         btn_topHits.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.topHitsFragment);
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment, TopHitsFragment).commit();
             }
         }
         );

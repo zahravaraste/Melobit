@@ -6,6 +6,7 @@
     android:layout_margin="8dp"
     app:cardElevation="8dp"
     android:padding="8dp"
+    android:id="@+id/card_music"
     app:cardBackgroundColor="@color/black">
     
     <LinearLayout
