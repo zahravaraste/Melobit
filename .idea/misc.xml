@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/drawable/home.xml" value="0.1705" />
+        <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/drawable/previous.xml" value="0.1455" />
         <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/drawable/settings.xml" value="0.1315" />
         <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/layout/activity_main.xml" value="0.11578947368421053" />
         <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/layout/activity_main2.xml" value="0.259375" />
+        <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/layout/activity_song.xml" value="0.264" />
         <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/layout/fragment_home.xml" value="0.259375" />
         <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/layout/fragment_search.xml" value="0.259375" />
         <entry key="..\:/mobile2/Final/Melobit/app/src/main/res/layout/fragment_setting.xml" value="0.259375" />

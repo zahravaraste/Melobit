@@ -2,6 +2,7 @@ package com.example.melobit;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ import java.util.List;
  * Use the {@link homeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class homeFragment extends Fragment {
+public class homeFragment extends Fragment implements SelectListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -114,7 +115,15 @@ public class homeFragment extends Fragment {
     private void showMusic(List<MusicData> list) {
         recyclerview.setHasFixedSize(true);
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        adapter = new MusicAdapter(getActivity(), list);
+        adapter = new MusicAdapter(getActivity(), list,this);
         recyclerview.setAdapter(adapter);
+    }
+
+    @Override
+    public void OnMusicClicked(MusicData musicData) {
+        Intent intent = new Intent(getActivity(),SongActivity.class);
+        intent.putExtra("id",musicData.getId());
+        startActivity(intent);
+
     }
 }

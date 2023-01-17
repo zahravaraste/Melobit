@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.melobit.R;
+import com.example.melobit.SelectListener;
 import com.example.melobit.SongActivity;
 import com.example.melobit.models.MusicData;
 import com.squareup.picasso.Picasso;
@@ -22,10 +23,12 @@ import java.util.List;
 public class MusicAdapter extends RecyclerView.Adapter<MusicViewHolder>   {
     Context context;
     List<MusicData> list;
+    SelectListener listener;
 
-    public MusicAdapter(Context context, List<MusicData> list) {
+    public MusicAdapter(Context context, List<MusicData> list,SelectListener listener) {
         this.context = context;
         this.list = list;
+        this.listener = listener;
     }
     @NonNull
     @Override
@@ -42,8 +45,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicViewHolder>   {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Intent intent = new Intent(context,SongActivity.class);
-               context.startActivity(intent);
+                listener.OnMusicClicked(list.get(position));
                 }
             });
     }
