@@ -3,7 +3,10 @@ package com.example.melobit.manager;
 import android.content.Context;
 
 import com.example.melobit.ResponseListener;
+import com.example.melobit.SongResponseListener;
+import com.example.melobit.models.MusicData;
 import com.example.melobit.models.MusicResponse;
+import com.example.melobit.models.Song;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -11,6 +14,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public class RequestManager {
     Context context;
@@ -104,6 +108,33 @@ public class RequestManager {
 
 
 
+    GetSongById getSongById = retrofit.create(GetSongById.class);
+    public void getSong(SongResponseListener listener, String id) {
+
+        Call<Song> call3 = getSongById.getSongById(id);
+        try {
+            call3.enqueue(new Callback<Song>() {
+                @Override
+                public void onResponse(Call<Song> call, Response<Song> response) {
+                    if (!response.isSuccessful()){
+                        listener.didError(response.message());
+                        return;
+                    }
+                    listener.didFetch(response.body(),response.message());
+                }
+
+                @Override
+                public void onFailure(Call<Song> call, Throwable t) {
+                    listener.didError(t.getMessage());
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
     private interface CallLatestSongs {
         @GET("song/new/0/11")
         Call<MusicResponse> callMusic();
@@ -117,5 +148,10 @@ public class RequestManager {
     private interface CallTopWeekSongs {
         @GET("song/top/week/0/100")
         Call<MusicResponse> callTopWeekMusic();
+    }
+
+    private interface GetSongById {
+        @GET("song/{id}")
+        Call<Song> getSongById(@Path("id") String songId);
     }
 }

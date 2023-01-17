@@ -7,12 +7,14 @@ public class MusicData {
     private String id;
     private Album album;
     private List<Artist> artists = new ArrayList<Artist>();
+    private Audio audio;
     private Boolean copyrighted;
     private Boolean localized;
     private String downloadCount;
     private Integer duration;
     private Boolean hasVideo;
     private String title;
+    private String lyrics;
     private Image image;
     private String releaseDate;
     public String getId() {
@@ -32,6 +34,12 @@ public class MusicData {
     }
     public void setArtists(List<Artist> artists) {
         this.artists = artists;
+    }
+    public Audio getAudio() {
+        return audio;
+    }
+    public void setAudio(Audio audio) {
+        this.audio = audio;
     }
     public Boolean getCopyrighted() {
         return copyrighted;
@@ -74,6 +82,9 @@ public class MusicData {
     }
     public void setImage(Image image) {
         this.image = image;
+    }
+    public String getLyrics() {
+        return lyrics;
     }
     public String getReleaseDate() {
         return releaseDate;
