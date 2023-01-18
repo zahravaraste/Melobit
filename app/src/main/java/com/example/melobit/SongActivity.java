@@ -56,7 +56,7 @@ public class SongActivity extends AppCompatActivity {
                     Picasso.get().load(response.getImage().getCover().getUrl()).into(img);
                     txt_musicName.setText(response.getTitle());
                     txt_singerName.setText(response.getArtists().get(0).getFullName());
-                    txt_date.setText(response.getReleaseDate());
+                    txt_date.setText(convertToShamsi(response.getReleaseDate()));
                     txt_downloadC.setText(response.getDownloadCount());
                     play(response.getAudio().getMedium().getUrl());
                 }
@@ -160,5 +160,11 @@ public class SongActivity extends AppCompatActivity {
                 TimeUnit.MILLISECONDS.toMinutes(milis) % TimeUnit.HOURS.toMinutes(1), TimeUnit.MILLISECONDS.toSeconds(milis) % TimeUnit.MINUTES.toSeconds(1));
     }
 
-
+    private String convertToShamsi(String date) {
+        String[] date2;
+        date2 = date.split("T");
+        LocalDate gregDate = LocalDate.parse(date2[0]);
+        PersianDate persianDate = PersianDate.fromGregorian(gregDate);
+        return persianDate.toString();
+    }
 }
