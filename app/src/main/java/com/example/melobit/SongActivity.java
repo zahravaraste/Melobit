@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.melobit.manager.RequestManager;
 import com.example.melobit.models.Song;
@@ -30,6 +32,7 @@ public class SongActivity extends AppCompatActivity {
     SeekBar seekBar;
     Button btn_play, btn_prev, btn_next;
     MediaPlayer mediaPlayer = new MediaPlayer();
+    LinearLayout btn_lyrics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +49,9 @@ public class SongActivity extends AppCompatActivity {
         btn_next = findViewById(R.id.btn_next);
         btn_play = findViewById(R.id.btn_play);
         btn_prev = findViewById(R.id.btn_prev);
+        btn_lyrics = findViewById(R.id.btn_lyrics);
         String extras = getIntent().getStringExtra("id");
-
+        Bundle data=new Bundle();
         if (extras != null) {
             RequestManager manager = new RequestManager(this);
             SongResponseListener listener = new SongResponseListener() {
@@ -56,6 +60,7 @@ public class SongActivity extends AppCompatActivity {
                     Picasso.get().load(response.getImage().getCover().getUrl()).into(img);
                     txt_musicName.setText(response.getTitle());
                     txt_singerName.setText(response.getArtists().get(0).getFullName());
+                    data.putString("hi",response.getLyrics());
                     txt_date.setText(convertToShamsi(response.getReleaseDate()));
                     txt_downloadC.setText(response.getDownloadCount());
                     play(response.getAudio().getMedium().getUrl());
@@ -67,6 +72,15 @@ public class SongActivity extends AppCompatActivity {
                 }
             };
             manager.getSong(listener, extras);
+
+            btn_lyrics.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DialogFragment myDialogFragment =new myDialogFragment();
+                    myDialogFragment.setArguments(data);
+                    myDialogFragment.show(getSupportFragmentManager(),"DialogFragment");
+                }
+            });
         }
 
     }
