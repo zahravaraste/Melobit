@@ -2,8 +2,10 @@ package com.example.melobit.manager;
 
 import android.content.Context;
 
+import com.example.melobit.ArtistResponseListener;
 import com.example.melobit.ResponseListener;
 import com.example.melobit.SongResponseListener;
+import com.example.melobit.models.ArtistResponse;
 import com.example.melobit.models.MusicData;
 import com.example.melobit.models.MusicResponse;
 import com.example.melobit.models.Song;
@@ -164,6 +166,31 @@ public class RequestManager {
     }
 
 
+    TrendArtist trendArtist = retrofit.create(TrendArtist.class);
+    public void getTrendArtist(ArtistResponseListener listener) {
+
+        Call<ArtistResponse> call5 = trendArtist.trendArtist();
+        try {
+            call5.enqueue(new Callback<ArtistResponse>() {
+                @Override
+                public void onResponse(Call<ArtistResponse> call, Response<ArtistResponse> response) {
+                    if (!response.isSuccessful()){
+                        listener.didError(response.message());
+                        return;
+                    }
+                    listener.didFetch(response.body().getResults(),response.message());
+                }
+
+                @Override
+                public void onFailure(Call<ArtistResponse> call, Throwable t) {
+                    listener.didError(t.getMessage());
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
 
@@ -192,5 +219,10 @@ public class RequestManager {
     private interface CallSlider {
         @GET("song/slider/latest")
         Call<MusicResponse> callSlider();
+    }
+
+    private interface TrendArtist {
+        @GET("artist/trending/0/4")
+        Call<ArtistResponse> trendArtist();
     }
 }
