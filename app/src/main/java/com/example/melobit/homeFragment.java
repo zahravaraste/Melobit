@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.melobit.adapter.MusicAdapter;
+import com.example.melobit.adapter.SliderAdapter;
 import com.example.melobit.manager.RequestManager;
 import com.example.melobit.models.MusicData;
 import com.example.melobit.models.MusicResponse;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,9 +75,11 @@ public class homeFragment extends Fragment implements SelectListener{
     }
     RecyclerView recyclerview;
     ProgressDialog dialog;
-    RequestManager manager;
+    RequestManager manager,manager2;
     MusicAdapter adapter;
     topHitsFragment TopHitsFragment = new topHitsFragment();
+    ViewPager viewPager;
+    int currentPagerAdapter=0;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -87,7 +94,10 @@ public class homeFragment extends Fragment implements SelectListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        viewPager=view.findViewById(R.id.viewPagerSlider);
         recyclerview = view.findViewById((R.id.recycler_music1));
+        manager2 = new RequestManager(getActivity());
+        manager2.getSlider(listener2);
         manager = new RequestManager(getActivity());
         manager.getMusic(listener);
         Button btn_topHits = (Button) view.findViewById(R.id.btn_topHits);
@@ -100,8 +110,37 @@ public class homeFragment extends Fragment implements SelectListener{
         );
         return view;
     }
+    private final ResponseListener<MusicResponse> listener2 = new ResponseListener<MusicResponse>() {
 
-    private final ResponseListener<MusicResponse> listener = new ResponseListener<MusicResponse>() {
+        @Override
+        public void didFetch(List<MusicData> list, String status) {
+            viewPager.setAdapter(new SliderAdapter(getActivity(),list));
+            final Handler handler=new Handler();
+            final Runnable runnable=new Runnable(){
+                @Override
+                public void run() {
+                    if(currentPagerAdapter==list.size()){
+                        currentPagerAdapter=0;
+                    }
+                    viewPager.setCurrentItem(currentPagerAdapter++,true);
+                }
+            };
+            Timer timer=new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    handler.post(runnable);
+                }
+            },2500,5000);
+        }
+
+        @Override
+        public void didError(String status) {
+            Toast.makeText(getActivity(), status, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+        private final ResponseListener<MusicResponse> listener = new ResponseListener<MusicResponse>() {
         @Override
         public void didFetch(List<MusicData> list, String status) {
             showMusic(list);
