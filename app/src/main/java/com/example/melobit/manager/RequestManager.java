@@ -135,6 +135,39 @@ public class RequestManager {
     }
 
 
+
+
+    CallSlider callslider = retrofit.create(CallSlider.class);
+    public void getSlider(ResponseListener listener) {
+
+        Call<MusicResponse> call2 = callslider.callSlider();
+        try {
+            call2.enqueue(new Callback<MusicResponse>() {
+                @Override
+                public void onResponse(Call<MusicResponse> call, Response<MusicResponse> response) {
+                    if (!response.isSuccessful()){
+                        listener.didError(response.message());
+                        return;
+                    }
+                    listener.didFetch(response.body().getResults(),response.message());
+                }
+
+                @Override
+                public void onFailure(Call<MusicResponse> call, Throwable t) {
+                    listener.didError(t.getMessage());
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
     private interface CallLatestSongs {
         @GET("song/new/0/11")
         Call<MusicResponse> callMusic();
@@ -153,5 +186,11 @@ public class RequestManager {
     private interface GetSongById {
         @GET("song/{id}")
         Call<Song> getSongById(@Path("id") String songId);
+    }
+
+
+    private interface CallSlider {
+        @GET("song/slider/latest")
+        Call<MusicResponse> callSlider();
     }
 }
