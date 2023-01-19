@@ -17,9 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.melobit.adapter.ArtistAdapter;
 import com.example.melobit.adapter.MusicAdapter;
 import com.example.melobit.adapter.SliderAdapter;
 import com.example.melobit.manager.RequestManager;
+import com.example.melobit.models.ArtistResponse;
+import com.example.melobit.models.ArtistResult;
 import com.example.melobit.models.MusicData;
 import com.example.melobit.models.MusicResponse;
 
@@ -73,10 +76,11 @@ public class homeFragment extends Fragment implements SelectListener{
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    RecyclerView recyclerview;
+    RecyclerView recyclerview,artist_recyclerview;
     ProgressDialog dialog;
-    RequestManager manager,manager2;
+    RequestManager manager,sliderManager,artistManager;
     MusicAdapter adapter;
+    ArtistAdapter artistAdapter;
     topHitsFragment TopHitsFragment = new topHitsFragment();
     ViewPager viewPager;
     int currentPagerAdapter=0;
@@ -96,11 +100,14 @@ public class homeFragment extends Fragment implements SelectListener{
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         viewPager=view.findViewById(R.id.viewPagerSlider);
         recyclerview = view.findViewById((R.id.recycler_music1));
-        manager2 = new RequestManager(getActivity());
-        manager2.getSlider(listener2);
+        artist_recyclerview = view.findViewById((R.id.recycler_artist));
         manager = new RequestManager(getActivity());
         manager.getMusic(listener);
-        Button btn_topHits = (Button) view.findViewById(R.id.btn_topHits);
+        sliderManager = new RequestManager(getActivity());
+        sliderManager.getSlider(listener2);
+        artistManager = new RequestManager(getActivity());
+        artistManager.getTrendArtist(listenerArtist);
+        Button btn_topHits = view.findViewById(R.id.btn_topHits);
         btn_topHits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,12 +158,27 @@ public class homeFragment extends Fragment implements SelectListener{
             Toast.makeText(getActivity(), status, Toast.LENGTH_SHORT).show();
         }
     };
+
     private void showMusic(List<MusicData> list) {
         recyclerview.setHasFixedSize(true);
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new MusicAdapter(getActivity(), list,this);
         recyclerview.setAdapter(adapter);
     }
+
+    private final ArtistResponseListener<ArtistResponse> listenerArtist = new ArtistResponseListener<ArtistResponse>() {
+        @Override
+        public void didFetch(List<ArtistResult> list, String status) {
+            artist_recyclerview.setHasFixedSize(true);
+            artist_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+            artistAdapter = new ArtistAdapter(getActivity(), list);
+            artist_recyclerview.setAdapter(artistAdapter);
+        }
+        @Override
+        public void didError(String status) {
+            Toast.makeText(getActivity(), status, Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     public void OnMusicClicked(MusicData musicData) {
