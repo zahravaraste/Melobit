@@ -1,12 +1,24 @@
 package com.example.melobit;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.example.melobit.adapter.SearchAdapter;
+import com.example.melobit.manager.RequestManager;
+import com.example.melobit.models.SearchResult;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,11 +66,59 @@ public class searchFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    RecyclerView recyclerview;
+    RequestManager manager;
+    SearchAdapter adapter;
+    Button btn_search;
+    EditText edt_search;
+    ProgressDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        btn_search=view.findViewById(R.id.btn_search);
+        edt_search=view.findViewById(R.id.edt_search);
+        recyclerview =view.findViewById(R.id.recycler_music2);
+        manager = new RequestManager(getActivity());
+
+
+        btn_search.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                String query=edt_search.getText().toString().trim();
+                if (!query.equals("")) {
+                    recyclerview.setVisibility(View.VISIBLE);
+                    dialog = new ProgressDialog(getActivity());
+                    manager.searchMusic(listener,query);
+                    edt_search.setText("");
+                    dialog.setTitle("Searching...⌛");
+                    dialog.show();
+                }
+                else{
+                    Toast.makeText(getActivity(),"Enter what you want...",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return view;
+    }
+    private final SearchResponseListener listener = new SearchResponseListener () {
+        @Override
+        public void didFetch(List<SearchResult> list, String status) {
+            dialog.dismiss();
+            showMusic(list);
+        }
+        @Override
+        public void didError(String status) {
+            Toast.makeText(getActivity(), status, Toast.LENGTH_SHORT).show();
+        }
+    };
+    private void showMusic(List<SearchResult> list) {
+        recyclerview.setHasFixedSize(true);
+        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        adapter = new SearchAdapter(getActivity(),list);
+        recyclerview.setAdapter(adapter);
     }
 }
