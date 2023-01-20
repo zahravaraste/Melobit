@@ -1,20 +1,17 @@
 package com.example.melobit;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.melobit.adapter.MusicAdapter;
 import com.example.melobit.adapter.TodayAdapter;
 import com.example.melobit.manager.RequestManager;
 import com.example.melobit.models.MusicData;
@@ -27,7 +24,7 @@ import java.util.List;
  * Use the {@link todayFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class todayFragment extends Fragment {
+public class todayFragment extends Fragment implements SelectListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -95,7 +92,14 @@ public class todayFragment extends Fragment {
     private void showMusic(List<MusicData> list) {
         recyclerview.setHasFixedSize(true);
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adapter = new TodayAdapter(getActivity(), list);
+        adapter = new TodayAdapter(getActivity(), list,this);
         recyclerview.setAdapter(adapter);
+    }
+    @Override
+    public void OnMusicClicked(MusicData musicData) {
+        Intent intent = new Intent(getActivity(),SongActivity.class);
+        intent.putExtra("id",musicData.getId());
+        startActivity(intent);
+
     }
 }

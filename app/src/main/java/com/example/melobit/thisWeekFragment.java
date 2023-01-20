@@ -1,5 +1,6 @@
 package com.example.melobit;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -24,7 +25,7 @@ import java.util.List;
  * Use the {@link thisWeekFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class thisWeekFragment extends Fragment {
+public class thisWeekFragment extends Fragment implements SelectListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -91,7 +92,14 @@ public class thisWeekFragment extends Fragment {
     private void showMusic(List<MusicData> list) {
         recyclerview.setHasFixedSize(true);
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adapter = new WeekAdapter(getActivity(), list);
+        adapter = new WeekAdapter(getActivity(), list,this);
         recyclerview.setAdapter(adapter);
+    }
+    @Override
+    public void OnMusicClicked(MusicData musicData) {
+        Intent intent = new Intent(getActivity(),SongActivity.class);
+        intent.putExtra("id",musicData.getId());
+        startActivity(intent);
+
     }
 }

@@ -1,5 +1,6 @@
 package com.example.melobit.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.melobit.R;
+import com.example.melobit.SelectListener;
 import com.example.melobit.models.MusicData;
 import com.squareup.picasso.Picasso;
 
@@ -19,10 +21,13 @@ import java.util.List;
 public class WeekAdapter extends RecyclerView.Adapter<WeekViewHolder> {
     Context context;
     List<MusicData> list;
+    SelectListener listener;
 
-    public WeekAdapter(Context context, List<MusicData> list) {
+    public WeekAdapter(Context context, List<MusicData> list, SelectListener listener) {
         this.context = context;
         this.list = list;
+        this.listener = listener;
+
     }
 
     @NonNull
@@ -32,11 +37,17 @@ public class WeekAdapter extends RecyclerView.Adapter<WeekViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WeekViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WeekViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Picasso.get().load(list.get(position).getImage().getCover().getUrl()).into(holder.img_music);
         holder.txt_musicName.setText(list.get(position).getTitle());
         holder.txt_singerName.setText(list.get(position).getArtists().get(0).getFullName());
         holder.txt_count.setText(list.get(position).getDownloadCount());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                listener.OnMusicClicked(list.get(position));
+            }
+        });
     }
 
     @Override
