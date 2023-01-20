@@ -90,6 +90,10 @@ public class searchFragment extends Fragment {
             public void onClick(View view) {
                 String query=edt_search.getText().toString().trim();
                 if (!query.equals("")) {
+                    if (query.contains(" "))
+                    {
+                        query = query.replace(" ","%20");
+                    }
                     recyclerview.setVisibility(View.VISIBLE);
                     dialog = new ProgressDialog(getActivity());
                     manager.searchMusic(listener,query);
