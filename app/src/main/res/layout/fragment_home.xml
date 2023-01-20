@@ -21,28 +21,24 @@
 
             <TextView
                 android:id="@+id/textView"
+                android:background="@drawable/bottom_border"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="10dp"
+                android:textStyle="bold"
                 android:text="Home"
-                android:textSize="36sp" />
+                android:textSize="34sp" />
 
             <Button
                 android:id="@+id/btn_topHits"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
+                android:layout_margin="10dp"
                 android:layout_height="wrap_content"
+                android:background="@android:drawable/picture_frame"
                 android:layout_gravity="center"
                 android:padding="16dp"
                 android:text="Top Hits"
                 android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="New Sliders"
-                android:textSize="32sp" />
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewPagerSlider"
@@ -55,25 +51,26 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="New songs"
-                android:textSize="32sp" />
+                android:textSize="30sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_music1"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="220dp"
+                android:layout_marginBottom="30dp"/>
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Trending Artist"
-                android:textSize="32sp" />
+                android:text="Trending Artists"
+                android:textSize="30sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_artist"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="210dp"
                 android:layout_marginBottom="70dp"/>
         </LinearLayout>
     </ScrollView>

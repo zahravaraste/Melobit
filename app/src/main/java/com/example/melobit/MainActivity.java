@@ -12,7 +12,6 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainActivity extends AppCompatActivity {
     homeFragment HomeFragment=new homeFragment();
     searchFragment SearchFragment=new searchFragment();
-    settingFragment SettingFragment=new settingFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.searchFragment:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment, SearchFragment).commit();
-                        return true;
-                    case R.id.settingFragment:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, SettingFragment).commit();
                         return true;
                 }
 

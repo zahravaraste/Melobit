@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="170dp"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
-    app:cardElevation="8dp"
+    app:cardElevation="10dp"
     android:padding="8dp"
-    android:id="@+id/card_music"
-    app:cardBackgroundColor="@color/black">
+    android:id="@+id/card_music">
 
     <LinearLayout
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:orientation="vertical"
         android:gravity="start">
+
         <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:id="@+id/img_artist"
-            android:layout_marginTop="4dp"
             android:layout_gravity="center"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txt_artistName"
             android:text="Artist name"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:textSize="16sp"
+            android:paddingTop="4dp"
             android:paddingStart="8dp"
             android:gravity="bottom"/>
         <TextView
@@ -34,10 +35,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/txt_followers"
             android:text="Followers"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:textSize="12sp"
             android:paddingStart="8dp"
-            android:paddingBottom="2dp"
+            android:paddingTop="4dp"
             android:gravity="bottom"/>
 
     </LinearLayout>

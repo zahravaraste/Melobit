@@ -3,5 +3,4 @@
 
     <item android:title="Home" android:icon="@drawable/home" android:id="@+id/homeFragment"/>
     <item android:title="Search" android:icon="@drawable/search" android:id="@+id/searchFragment"/>
-    <item android:title="Settings" android:icon="@drawable/settings" android:id="@+id/settingFragment"/>
 </menu>
