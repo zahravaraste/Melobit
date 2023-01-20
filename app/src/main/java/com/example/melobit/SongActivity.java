@@ -1,5 +1,6 @@
 package com.example.melobit;
 
+import android.annotation.SuppressLint;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -95,22 +96,11 @@ public class SongActivity extends AppCompatActivity {
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepare();
             mediaPlayer.start();
-            /*seekBar.setProgress(0);*/
             seekBar.setMax(mediaPlayer.getDuration());
         } catch (IOException e) {
             e.printStackTrace();
         }
-       /* SongActivity.this.runOnUiThread(new Runnable() {
 
-            @Override
-            public void run() {
-                if(mediaPlayer!=null){
-                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                    txt_duration.setText(convertTomms(mediaPlayer.getCurrentPosition()+""));
-                }
-                new Handler().postDelayed(this,1000);
-            }
-        });*/
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -125,7 +115,18 @@ public class SongActivity extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                mediaPlayer.seekTo(i);
+                if (b)
+                {
+                    int secProgress = seekBar.getSecondaryProgress();
+                    if (secProgress> i)
+                    {
+                        mediaPlayer.seekTo(i);
+                    }
+                    else
+                    {
+                        seekBar.setProgress(seekBar.getProgress());
+                    }
+                }
             }
 
             @Override
@@ -135,6 +136,16 @@ public class SongActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener()
+        {
+
+            @Override
+            public void onBufferingUpdate(MediaPlayer mp, int percent)
+            {
+                seekBar.setSecondaryProgress((seekBar.getMax()/100)*percent);
 
             }
         });
@@ -168,6 +179,7 @@ public class SongActivity extends AppCompatActivity {
         mediaPlayer.release();
     }
 
+    @SuppressLint("DefaultLocale")
     private String convertTomms(String duration) {
         Long milis = Long.parseLong(duration);
         return String.format("%02d:%02d",
@@ -181,4 +193,5 @@ public class SongActivity extends AppCompatActivity {
         PersianDate persianDate = PersianDate.fromGregorian(gregDate);
         return persianDate.toString();
     }
+
 }
