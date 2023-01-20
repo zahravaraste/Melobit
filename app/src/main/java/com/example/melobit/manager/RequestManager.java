@@ -2,12 +2,13 @@ package com.example.melobit.manager;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.example.melobit.ArtistResponseListener;
 import com.example.melobit.ResponseListener;
 import com.example.melobit.SearchResponseListener;
 import com.example.melobit.SongResponseListener;
 import com.example.melobit.models.ArtistResponse;
-import com.example.melobit.models.MusicData;
 import com.example.melobit.models.MusicResponse;
 import com.example.melobit.models.SearchResponse;
 import com.example.melobit.models.Song;
@@ -37,7 +38,7 @@ public class RequestManager {
         try {
             call.enqueue(new Callback<MusicResponse>() {
                 @Override
-                public void onResponse(Call<MusicResponse> call, Response<MusicResponse> response) {
+                public void onResponse(@NonNull Call<MusicResponse> call, @NonNull Response<MusicResponse> response) {
                     if (!response.isSuccessful()){
                         listener.didError(response.message());
                         return;
@@ -46,7 +47,7 @@ public class RequestManager {
                 }
 
                 @Override
-                public void onFailure(Call<MusicResponse> call, Throwable t) {
+                public void onFailure(@NonNull Call<MusicResponse> call, @NonNull Throwable t) {
                     listener.didError(t.getMessage());
                 }
             });
@@ -64,7 +65,7 @@ public class RequestManager {
         try {
             call2.enqueue(new Callback<MusicResponse>() {
                 @Override
-                public void onResponse(Call<MusicResponse> call, Response<MusicResponse> response) {
+                public void onResponse(@NonNull Call<MusicResponse> call, @NonNull Response<MusicResponse> response) {
                     if (!response.isSuccessful()){
                         listener.didError(response.message());
                         return;
@@ -73,7 +74,7 @@ public class RequestManager {
                 }
 
                 @Override
-                public void onFailure(Call<MusicResponse> call, Throwable t) {
+                public void onFailure(@NonNull Call<MusicResponse> call, @NonNull Throwable t) {
                     listener.didError(t.getMessage());
                 }
             });
@@ -91,7 +92,7 @@ public class RequestManager {
         try {
             call2.enqueue(new Callback<MusicResponse>() {
                 @Override
-                public void onResponse(Call<MusicResponse> call, Response<MusicResponse> response) {
+                public void onResponse(@NonNull Call<MusicResponse> call, @NonNull Response<MusicResponse> response) {
                     if (!response.isSuccessful()){
                         listener.didError(response.message());
                         return;
@@ -100,7 +101,7 @@ public class RequestManager {
                 }
 
                 @Override
-                public void onFailure(Call<MusicResponse> call, Throwable t) {
+                public void onFailure(@NonNull Call<MusicResponse> call, @NonNull Throwable t) {
                     listener.didError(t.getMessage());
                 }
             });
@@ -119,7 +120,7 @@ public class RequestManager {
         try {
             call3.enqueue(new Callback<Song>() {
                 @Override
-                public void onResponse(Call<Song> call, Response<Song> response) {
+                public void onResponse(@NonNull Call<Song> call, @NonNull Response<Song> response) {
                     if (!response.isSuccessful()){
                         listener.didError(response.message());
                         return;
@@ -128,7 +129,7 @@ public class RequestManager {
                 }
 
                 @Override
-                public void onFailure(Call<Song> call, Throwable t) {
+                public void onFailure(@NonNull Call<Song> call, @NonNull Throwable t) {
                     listener.didError(t.getMessage());
                 }
             });
@@ -145,7 +146,7 @@ public class RequestManager {
         try {
             call4.enqueue(new Callback<SearchResponse>() {
                 @Override
-                public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                public void onResponse(@NonNull Call<SearchResponse> call, @NonNull Response<SearchResponse> response) {
                     if (!response.isSuccessful()){
                         listener.didError(response.message());
                         return;
@@ -154,7 +155,7 @@ public class RequestManager {
                 }
 
                 @Override
-                public void onFailure(Call<SearchResponse> call, Throwable t) {
+                public void onFailure(@NonNull Call<SearchResponse> call, @NonNull Throwable t) {
                     listener.didError(t.getMessage());
                 }
             });
@@ -172,7 +173,7 @@ public class RequestManager {
         try {
             call2.enqueue(new Callback<MusicResponse>() {
                 @Override
-                public void onResponse(Call<MusicResponse> call, Response<MusicResponse> response) {
+                public void onResponse(@NonNull Call<MusicResponse> call, @NonNull Response<MusicResponse> response) {
                     if (!response.isSuccessful()){
                         listener.didError(response.message());
                         return;
@@ -181,7 +182,7 @@ public class RequestManager {
                 }
 
                 @Override
-                public void onFailure(Call<MusicResponse> call, Throwable t) {
+                public void onFailure(@NonNull Call<MusicResponse> call, @NonNull Throwable t) {
                     listener.didError(t.getMessage());
                 }
             });
@@ -199,7 +200,7 @@ public class RequestManager {
         try {
             call5.enqueue(new Callback<ArtistResponse>() {
                 @Override
-                public void onResponse(Call<ArtistResponse> call, Response<ArtistResponse> response) {
+                public void onResponse(@NonNull Call<ArtistResponse> call, @NonNull Response<ArtistResponse> response) {
                     if (!response.isSuccessful()){
                         listener.didError(response.message());
                         return;
@@ -208,7 +209,7 @@ public class RequestManager {
                 }
 
                 @Override
-                public void onFailure(Call<ArtistResponse> call, Throwable t) {
+                public void onFailure(@NonNull Call<ArtistResponse> call, @NonNull Throwable t) {
                     listener.didError(t.getMessage());
                 }
             });

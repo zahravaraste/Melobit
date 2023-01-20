@@ -108,12 +108,7 @@ public class homeFragment extends Fragment implements SelectListener{
         artistManager = new RequestManager(getActivity());
         artistManager.getTrendArtist(listenerArtist);
         Button btn_topHits = view.findViewById(R.id.btn_topHits);
-        btn_topHits.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment, TopHitsFragment).commit();
-            }
-        }
+        btn_topHits.setOnClickListener(view1 -> getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment, TopHitsFragment).commit()
         );
         return view;
     }
@@ -123,14 +118,11 @@ public class homeFragment extends Fragment implements SelectListener{
         public void didFetch(List<MusicData> list, String status) {
             viewPager.setAdapter(new SliderAdapter(getActivity(),list));
             final Handler handler=new Handler();
-            final Runnable runnable=new Runnable(){
-                @Override
-                public void run() {
-                    if(currentPagerAdapter==list.size()){
-                        currentPagerAdapter=0;
-                    }
-                    viewPager.setCurrentItem(currentPagerAdapter++,true);
+            final Runnable runnable= () -> {
+                if(currentPagerAdapter==list.size()){
+                    currentPagerAdapter=0;
                 }
+                viewPager.setCurrentItem(currentPagerAdapter++,true);
             };
             Timer timer=new Timer();
             timer.schedule(new TimerTask() {

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -74,13 +73,10 @@ public class SongActivity extends AppCompatActivity {
             };
             manager.getSong(listener, extras);
 
-            btn_lyrics.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    DialogFragment myDialogFragment =new myDialogFragment();
-                    myDialogFragment.setArguments(data);
-                    myDialogFragment.show(getSupportFragmentManager(),"DialogFragment");
-                }
+            btn_lyrics.setOnClickListener(view -> {
+                DialogFragment myDialogFragment =new myDialogFragment();
+                myDialogFragment.setArguments(data);
+                myDialogFragment.show(getSupportFragmentManager(),"DialogFragment");
             });
         }
 
@@ -139,36 +135,20 @@ public class SongActivity extends AppCompatActivity {
 
             }
         });
-        mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener()
-        {
-
-            @Override
-            public void onBufferingUpdate(MediaPlayer mp, int percent)
-            {
-                seekBar.setSecondaryProgress((seekBar.getMax()/100)*percent);
-
-            }
-        });
-        btn_play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mediaPlayer.isPlaying()) {
-                    btn_play.setBackgroundResource(R.drawable.play);
-                    mediaPlayer.pause();
-                } else {
-                    mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
-                    btn_play.setBackgroundResource(R.drawable.pause);
-                    mediaPlayer.start();
-                }
-            }
-        });
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
+        mediaPlayer.setOnBufferingUpdateListener((mp, percent) -> seekBar.setSecondaryProgress((seekBar.getMax()/100)*percent));
+        btn_play.setOnClickListener(view -> {
+            if (mediaPlayer.isPlaying()) {
                 btn_play.setBackgroundResource(R.drawable.play);
-                mediaPlayer.seekTo(0);
+                mediaPlayer.pause();
+            } else {
+                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
+                btn_play.setBackgroundResource(R.drawable.pause);
+                mediaPlayer.start();
             }
+        });
+        mediaPlayer.setOnCompletionListener(mediaPlayer -> {
+            btn_play.setBackgroundResource(R.drawable.play);
+            mediaPlayer.seekTo(0);
         });
     }
 

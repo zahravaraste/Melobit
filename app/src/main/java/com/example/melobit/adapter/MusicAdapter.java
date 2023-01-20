@@ -1,7 +1,7 @@
 package com.example.melobit.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.melobit.R;
 import com.example.melobit.SelectListener;
-import com.example.melobit.SongActivity;
 import com.example.melobit.models.MusicData;
 import com.squareup.picasso.Picasso;
 
@@ -37,17 +36,12 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicViewHolder>   {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MusicViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MusicViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Picasso.get().load(list.get(position).getImage().getCover().getUrl()).into(holder.img_music);
         holder.txt_musicName.setText(list.get(position).getTitle());
         holder.txt_singerName.setText(list.get(position).getArtists().get(0).getFullName());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                listener.OnMusicClicked(list.get(position));
-                }
-            });
+        holder.itemView.setOnClickListener(v -> listener.OnMusicClicked(list.get(position)));
     }
     @Override
     public int getItemCount()  {

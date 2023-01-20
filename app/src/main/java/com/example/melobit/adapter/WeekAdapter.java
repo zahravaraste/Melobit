@@ -42,12 +42,7 @@ public class WeekAdapter extends RecyclerView.Adapter<WeekViewHolder> {
         holder.txt_musicName.setText(list.get(position).getTitle());
         holder.txt_singerName.setText(list.get(position).getArtists().get(0).getFullName());
         holder.txt_count.setText(list.get(position).getDownloadCount());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                listener.OnMusicClicked(list.get(position));
-            }
-        });
+        holder.itemView.setOnClickListener(v -> listener.OnMusicClicked(list.get(position)));
     }
 
     @Override

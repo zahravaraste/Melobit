@@ -84,26 +84,22 @@ public class searchFragment extends Fragment {
         manager = new RequestManager(getActivity());
 
 
-        btn_search.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                String query=edt_search.getText().toString().trim();
-                if (!query.equals("")) {
-                    if (query.contains(" "))
-                    {
-                        query = query.replace(" ","%20");
-                    }
-                    recyclerview.setVisibility(View.VISIBLE);
-                    dialog = new ProgressDialog(getActivity());
-                    manager.searchMusic(listener,query);
-                    edt_search.setText("");
-                    dialog.setTitle("Searching...⌛");
-                    dialog.show();
+        btn_search.setOnClickListener(view1 -> {
+            String query=edt_search.getText().toString().trim();
+            if (!query.equals("")) {
+                if (query.contains(" "))
+                {
+                    query = query.replace(" ","%20");
                 }
-                else{
-                    Toast.makeText(getActivity(),"Enter what you want...",Toast.LENGTH_SHORT).show();
-                }
+                recyclerview.setVisibility(View.VISIBLE);
+                dialog = new ProgressDialog(getActivity());
+                manager.searchMusic(listener,query);
+                edt_search.setText("");
+                dialog.setTitle("Searching...⌛");
+                dialog.show();
+            }
+            else{
+                Toast.makeText(getActivity(),"Enter what you want...",Toast.LENGTH_SHORT).show();
             }
         });
         return view;

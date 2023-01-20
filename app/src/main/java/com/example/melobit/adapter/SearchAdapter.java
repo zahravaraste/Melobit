@@ -35,6 +35,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         return new SearchViewHolder(LayoutInflater.from(context).inflate(R.layout.today_music , parent , false));
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder holder, @SuppressLint("RecyclerView") int position) {
         SearchResult search = list.get(position);
@@ -44,13 +45,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             holder.txt_singerName.setText(String.valueOf(search.getSong().getArtists().get(0).getFullName()));
             holder.txt_count.setText(String.valueOf(search.getSong().getDownloadCount()));
             holder.itemView.setClickable(true);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, SongActivity.class);
-                    intent.putExtra("id",list.get(position).getSong().getId());
-                    context.startActivity(intent);
-                }
+            holder.itemView.setOnClickListener(view -> {
+                Intent intent = new Intent(context, SongActivity.class);
+                intent.putExtra("id",list.get(position).getSong().getId());
+                context.startActivity(intent);
             });
         }
         else if (search.getType().equals("album")){

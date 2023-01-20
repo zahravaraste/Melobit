@@ -43,13 +43,10 @@ public class SliderAdapter extends PagerAdapter {
         View view=(LayoutInflater.from(context).inflate(R.layout.slider_image, container , false));
         ImageView img_slider=view.findViewById(R.id.img_slider);
         Picasso.get().load(list.get(position).getImage().getSlider().getUrl()).into(img_slider);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, SongActivity.class);
-                intent.putExtra("id",list.get(position).getId());
-                context.startActivity(intent);
-            }
+        view.setOnClickListener(view1 -> {
+            Intent intent = new Intent(context, SongActivity.class);
+            intent.putExtra("id",list.get(position).getId());
+            context.startActivity(intent);
         });
         container.addView(view);
         return view;

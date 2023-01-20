@@ -1,10 +1,17 @@
 package com.example.melobit.models;
 
 public class Image {
+    private Slider slider;
     private ThumbnailSmall thumbnailSmall;
     private Thumbnail thumbnail;
     private CoverSmall coverSmall;
     private Cover cover;
+    public Slider getSlider() {
+        return slider;
+    }
+    public void setSlider(Slider slider) {
+        this.slider = slider;
+    }
     public ThumbnailSmall getThumbnailSmall() {
         return thumbnailSmall;
     }

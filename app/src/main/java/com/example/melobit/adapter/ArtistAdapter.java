@@ -1,5 +1,6 @@
 package com.example.melobit.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistViewHolder>{
         return new ArtistViewHolder(LayoutInflater.from(context).inflate(R.layout.list_artist , parent , false));
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ArtistViewHolder holder, int position) {
         Picasso.get().load(list.get(position).getImage().getCover().getUrl()).into(holder.img_artist);
