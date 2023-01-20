@@ -4,10 +4,12 @@ import android.content.Context;
 
 import com.example.melobit.ArtistResponseListener;
 import com.example.melobit.ResponseListener;
+import com.example.melobit.SearchResponseListener;
 import com.example.melobit.SongResponseListener;
 import com.example.melobit.models.ArtistResponse;
 import com.example.melobit.models.MusicData;
 import com.example.melobit.models.MusicResponse;
+import com.example.melobit.models.SearchResponse;
 import com.example.melobit.models.Song;
 
 import retrofit2.Call;
@@ -137,6 +139,30 @@ public class RequestManager {
     }
 
 
+    Search search = retrofit.create(Search.class);
+    public void searchMusic(SearchResponseListener listener, String query) {
+        Call<SearchResponse> call4 = search.callSearch(query);
+        try {
+            call4.enqueue(new Callback<SearchResponse>() {
+                @Override
+                public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                    if (!response.isSuccessful()){
+                        listener.didError(response.message());
+                        return;
+                    }
+                    listener.didFetch(response.body().getResults(),response.message());
+                }
+
+                @Override
+                public void onFailure(Call<SearchResponse> call, Throwable t) {
+                    listener.didError(t.getMessage());
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
     CallSlider callslider = retrofit.create(CallSlider.class);
@@ -215,6 +241,10 @@ public class RequestManager {
         Call<Song> getSongById(@Path("id") String songId);
     }
 
+    private interface Search {
+        @GET("search/query/{query}/0/50")
+        Call<SearchResponse> callSearch(@Path("query") String query);
+    }
 
     private interface CallSlider {
         @GET("song/slider/latest")
